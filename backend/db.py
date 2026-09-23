@@ -12,13 +12,23 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.environ.get(
+# Read the raw URL from env (cloud providers usually give "postgresql://…")
+_env_db_url = os.environ.get(
     "DATABASE_URL",
     "postgresql+psycopg://postgres:5478@localhost:5432/jobmatch",
 )
 
-# psycopg (raw driver) needs the URL without the SQLAlchemy dialect prefix
-RAW_DATABASE_URL = DATABASE_URL.replace("postgresql+psycopg://", "postgresql://")
+# Normalize: force the psycopg (v3) driver so SQLAlchemy doesn't fall back to psycopg2
+if _env_db_url.startswith("postgresql://"):
+    DATABASE_URL = _env_db_url.replace("postgresql://", "postgresql+psycopg://", 1)
+elif _env_db_url.startswith("postgres://"):
+    DATABASE_URL = _env_db_url.replace("postgres://", "postgresql+psycopg://", 1)
+else:
+    DATABASE_URL = _env_db_url
+
+# The raw psycopg driver wants the plain "postgresql://" scheme
+RAW_DATABASE_URL = DATABASE_URL.replace("postgresql+psycopg://", "postgresql://", 1)
+
 
 class Base(DeclarativeBase):
     pass
