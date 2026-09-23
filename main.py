@@ -66,9 +66,18 @@ EMPLOYER_TOP_K = 20
 
 app = FastAPI(title="Global Job Recommendation API")
 
+import os
+
+_origins_env = os.environ.get("CORS_ORIGINS", "").strip()
+ALLOWED_ORIGINS = (
+    [o.strip() for o in _origins_env.split(",") if o.strip()]
+    if _origins_env
+    else ["*"]  # local dev default
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

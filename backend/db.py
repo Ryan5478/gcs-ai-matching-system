@@ -8,13 +8,17 @@ from pgvector.psycopg import register_vector
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
-DATABASE_URL = os.getenv(
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL = os.environ.get(
     "DATABASE_URL",
     "postgresql+psycopg://postgres:5478@localhost:5432/jobmatch",
 )
 
+# psycopg (raw driver) needs the URL without the SQLAlchemy dialect prefix
 RAW_DATABASE_URL = DATABASE_URL.replace("postgresql+psycopg://", "postgresql://")
-
 
 class Base(DeclarativeBase):
     pass
