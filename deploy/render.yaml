@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: ai-matching-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    plan: starter
+    envVars:
+      - key: MODEL_DIR
+        value: /app/backend/models
+      - key: DATA_DIR
+        value: /app/backend/data
+      - key: DEFAULT_EMBED_MODEL
+        value: sentence-transformers/all-MiniLM-L6-v2
+
+  - type: web
+    name: ai-matching-frontend
+    env: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: starter
+    envVars:
+      - key: VITE_API_URL
+        value: https://ai-matching-backend.onrender.com/api/v1

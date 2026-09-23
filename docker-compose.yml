@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: ai-matching-backend
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_DIR: /app/backend/models
+      DATA_DIR: /app/backend/data
+      DEFAULT_EMBED_MODEL: sentence-transformers/all-MiniLM-L6-v2
+    volumes:
+      - ./backend/data:/app/backend/data
+      - ./backend/models:/app/backend/models
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:8000/api/v1
+    container_name: ai-matching-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

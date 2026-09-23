@@ -1,0 +1,26 @@
+[
+  {
+    "title": "AI/ML Intern",
+    "company": "Acme AI",
+    "location": "Nairobi",
+    "job_type": "internship",
+    "description": "Build NLP pipelines, embeddings, FastAPI services and Python data workflows.",
+    "required_skills": ["python", "nlp", "fastapi", "pytorch"]
+  },
+  {
+    "title": "Backend Engineer",
+    "company": "ScaleStack",
+    "location": "Remote",
+    "job_type": "full-time",
+    "description": "Develop REST APIs with FastAPI, PostgreSQL, Docker and AWS.",
+    "required_skills": ["python", "fastapi", "postgresql", "docker", "aws"]
+  },
+  {
+    "title": "Senior DevOps Engineer",
+    "company": "CloudCorp",
+    "location": "Remote",
+    "job_type": "full-time",
+    "description": "Lead AWS, Terraform, Kubernetes and CI/CD platform engineering.",
+    "required_skills": ["aws", "terraform", "kubernetes", "ci/cd"]
+  }
+]

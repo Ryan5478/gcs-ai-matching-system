@@ -1,0 +1,161 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+/* ---------- Base ---------- */
+html, body, #root { height: 100%; }
+
+body {
+  @apply bg-void-900 text-slate-200 antialiased;
+  font-family: "Inter", system-ui, sans-serif;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.15), transparent),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(168,85,247,0.10), transparent),
+    radial-gradient(ellipse 60% 50% at 20% 100%, rgba(34,211,238,0.08), transparent);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::selection { @apply bg-neon-purple/40 text-white; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0a0a18; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1, #a855f7);
+  border-radius: 10px;
+  border: 2px solid #0a0a18;
+}
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #818cf8, #c084fc); }
+
+/* ---------- Utility classes ---------- */
+@layer components {
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  .glass-strong {
+    @apply bg-white/[0.07] backdrop-blur-2xl border border-white/[0.12];
+    box-shadow:
+      0 12px 48px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(255,255,255,0.03),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  .glow-border {
+    position: relative;
+  }
+  .glow-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.6), rgba(168,85,247,0.4), rgba(34,211,238,0.5));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .neon-text {
+    background: linear-gradient(90deg, #6366f1, #a855f7, #22d3ee, #6366f1);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    animation: gradient-shift 6s ease infinite;
+  }
+
+  .shimmer-text {
+    background: linear-gradient(90deg, #94a3b8 0%, #f1f5f9 50%, #94a3b8 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-semibold text-white transition-all duration-300;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    background-size: 200% 200%;
+    box-shadow:
+      0 4px 20px rgba(99,102,241,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background-position: 100% 0;
+    box-shadow:
+      0 8px 32px rgba(99,102,241,0.6),
+      0 0 40px rgba(168,85,247,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.3);
+    transform: translateY(-1px);
+  }
+  .btn-primary:disabled { @apply opacity-40 cursor-not-allowed; }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-semibold text-slate-300 transition-all duration-300 border border-white/10;
+    background: rgba(255,255,255,0.03);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    @apply text-white border-white/20;
+    background: rgba(255,255,255,0.06);
+    box-shadow: 0 4px 20px rgba(99,102,241,0.15);
+  }
+
+  .input-dark {
+    @apply w-full rounded-xl px-4 py-3 text-white placeholder-slate-500 transition-all duration-200;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .input-dark:focus {
+    @apply outline-none;
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(99,102,241,0.5);
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15), 0 0 20px rgba(99,102,241,0.2);
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium;
+    background: rgba(99,102,241,0.12);
+    border: 1px solid rgba(99,102,241,0.3);
+    color: #a5b4fc;
+  }
+
+  .scanline-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(99,102,241,0.03) 3px,
+      rgba(99,102,241,0.03) 4px
+    );
+    mix-blend-mode: screen;
+  }
+
+  .scanline-sweep {
+    position: fixed;
+    left: 0; right: 0;
+    height: 150px;
+    top: 0;
+    pointer-events: none;
+    z-index: 49;
+    background: linear-gradient(180deg, transparent, rgba(99,102,241,0.06), transparent);
+    animation: scanline 8s linear infinite;
+  }
+}
+
+/* Selection color in inputs */
+input, textarea, select { color-scheme: dark; }
+select option { background: #0f0f22; color: #e2e8f0; }
